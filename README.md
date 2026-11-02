@@ -74,6 +74,22 @@ logger.info('Hei verden!');
 
 Se logger på [logs.adeo.no](https://logs.adeo.no/)
 
+### Omlasting ved chunkfeil
+
+`util/lastPåNyttVedChunkfeil.ts` forsøker full sidelasting ved kjente feil ved
+lasting av JS- og CSS-chunks. Globale feilhendelser, feilgrenser og
+`Feilmelding` bruker samme helper. `SWRLaster` sender feilobjektet videre til
+`Feilmelding`, også når feilen allerede er fanget og ikke når en feilgrense.
+
+Helperen lagrer tidspunktet i `sessionStorage` før omlasting og sperrer nye
+forsøk i fem minutter i samme fane. Hvis lagringen ikke er tilgjengelig,
+forsøker den ikke omlasting. Feilvisningen beholdes, også ved nye chunkfeil
+innenfor sperretiden. Kjente chunkfeil logges på info-nivå og filtreres bort
+fra APM-feilrapporteringen. Andre feiltyper rapporteres som før.
+Ulagrede endringer i minnet kan gå tapt ved full sidelasting.
+At omlasting er startet, bekrefter ikke at feilen er rettet. Etter deploy må
+vi kontrollere at siden faktisk starter med de nye chunkene.
+
 ## Nettleserstøtte
 
 Vi bruker [`@navikt/browserslist-config-public`](https://github.com/navikt/browserslist/blob/main/packages/config-public/README.md)
