@@ -43,6 +43,22 @@ test.describe('Jobbmesse', () => {
       await expect(page.getByText('Send tips')).toBeVisible();
     });
 
+    test('Kan ikke dupliseres', async ({ page }) => {
+      const hoveddel = page.locator('main');
+      const rediger = hoveddel.getByRole('button', { name: 'Rediger' }).first();
+      const flereHandlinger = hoveddel.getByRole('button', {
+        name: 'Flere handlinger',
+      });
+      await expect(rediger.or(flereHandlinger).first()).toBeVisible();
+      if (await flereHandlinger.isVisible()) {
+        await flereHandlinger.click();
+      }
+
+      await expect(page.getByRole('button', { name: 'Dupliser' })).toHaveCount(
+        0,
+      );
+    });
+
     snapshotTest(test);
     tilgjengelighetstest(test, { utvidet: true, mørkModus: slåPåMørkModus });
   });
