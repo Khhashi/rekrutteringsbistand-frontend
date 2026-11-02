@@ -202,7 +202,9 @@ test.describe('Tidsgrense for sesjonen (2.2.1)', { tag: '@a11y' }, () => {
     await kommTilbakeTilFanen(page);
     await expect(varsel).toHaveCount(0);
     await expect.poll(() => hentinger).toBeGreaterThan(førInnlogging);
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(
+      page.locator('main').getByRole('heading', { level: 1 }),
+    ).toBeVisible();
   });
 
   test('varselet om utløpt sesjon vises også når et API-kall svarer 401', async ({
