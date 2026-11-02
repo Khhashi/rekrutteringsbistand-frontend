@@ -39,10 +39,15 @@ const Feilmelding: React.FC<IFeilmelding> = ({ zodError, error, message }) => {
         rapporterFeil(error);
         logger.error(
           {
+            url: window.location.pathname,
+            komponent: 'Feilmelding',
             err: error instanceof Error ? error : null,
             errorType: error?.constructor?.name || typeof error,
+            stack: error instanceof Error ? error.stack : undefined,
+            message: error instanceof Error ? error.message : undefined,
+            name: error instanceof Error ? error.name : undefined,
           },
-          `Error displayed in UI (${message})`,
+          `Feil vist hos bruker (${message})`,
         );
       }
     }
