@@ -77,7 +77,16 @@ for (const visning of ['Feilmelding', 'ErrorBoundary'] as const) {
 
     const feil = new Error('Uventet feil');
     if (visning === 'Feilmelding') {
+      Object.defineProperty(globalThis, 'window', {
+        configurable: true,
+        value: { location: { pathname: '/kandidat' } },
+      });
       Feilmelding({ error: feil, message: feil.message });
+      expect(error.mock.calls[0].arguments[0]).toMatchObject({
+        url: '/kandidat',
+        komponent: 'Feilmelding',
+        err: feil,
+      });
     } else {
       new ErrorBoundary({}).componentDidCatch(feil);
     }
