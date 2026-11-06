@@ -1,12 +1,13 @@
 import { skalMocke } from '@/util/env';
 import { nanoid } from 'nanoid';
 import { NextRequest, NextResponse } from 'next/server';
+import { lagUnderenhetUrl } from '@/app/api/pam-search/underenhet/underenhetUrl';
 
 export async function GET(req: NextRequest) {
   const søkeord = req.nextUrl.searchParams.get('q');
   const id = nanoid();
   const requestUrl = skalMocke
-    ? `http://mock-api/api/pam-search/underenhet?q=${søkeord}`
+    ? lagUnderenhetUrl('http://mock-api/api/pam-search/underenhet', søkeord ?? '')
     : `${process.env.PAM_SEARCH_URL}/underenhet/_search`;
   const response = await fetch(requestUrl, {
     method: 'POST',

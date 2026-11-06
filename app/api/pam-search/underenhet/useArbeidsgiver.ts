@@ -1,11 +1,15 @@
 'use client';
 
 import { PamSearchAPI } from '@/app/api/api-routes';
+import { lagUnderenhetUrl } from '@/app/api/pam-search/underenhet/underenhetUrl';
 import { useSWRGet } from '@/app/api/useSWRGet';
 import { z } from 'zod';
 
 const finnArbeidsgiverEndepunkt = (søkeord: string) => {
-  return PamSearchAPI.internUrl + `/underenhet?q=${søkeord}`;
+  return lagUnderenhetUrl(
+    `${PamSearchAPI.internUrl}/underenhet`,
+    søkeord,
+  );
 };
 
 const ArbeidsgiverAdresseSchema = z
