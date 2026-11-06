@@ -23,18 +23,6 @@ export async function proxy(request: NextRequest): Promise<NextResponse> {
   }
 
   if (requestHeaders.get('authorization') == null && !isLocal && !testMode) {
-    // Check if this is already a callback attempt to avoid redirect loops
-    if (
-      requestUrl.searchParams.has('redirect') ||
-      requestUrl.pathname === '/oauth2/login'
-    ) {
-      return NextResponse.next({
-        request: {
-          headers: requestHeaders,
-        },
-      });
-    }
-
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = '/oauth2/login';
     redirectUrl.searchParams.set(
