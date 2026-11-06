@@ -1,6 +1,6 @@
 import { skalMocke } from '@/util/env';
 import { nanoid } from 'nanoid';
-import { NextResponse } from 'next/server';
+import { pamJsonResponse } from '@/app/api/pam-geografi/pamJsonResponse';
 
 export async function GET(
   request: Request,
@@ -21,6 +21,5 @@ export async function GET(
       'Nav-CallId': id,
     },
   });
-  const data = await response.json();
-  return NextResponse.json(data);
+  return pamJsonResponse(response);
 }
